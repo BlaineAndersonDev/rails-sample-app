@@ -1,4 +1,4 @@
-# [Live Site](https://calm-woodland-78933.herokuapp.com/)
+# [Live Site](https://damp-chamber-62059.herokuapp.com)
 
 # Steps
   * `rails new rails-sample-app`
@@ -57,11 +57,8 @@
     end
     ```
   * `heroku create`
-  * `rails generate scaffold User name:string email:string`
-  * `rails db:migrate`
   * `rails server`
-  *  Navigate in your browser to `localhost:3000/users` for manual testing.
-  * Now navigating in your browser to `localhost:3000` will allow users changes.
+  * Test with `rails server` in browser at `localhost:3000`.
   * Push to Github & Heroku: `git push && heroku push origin master`
 
 # Microposts
