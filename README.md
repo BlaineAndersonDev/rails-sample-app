@@ -1,42 +1,130 @@
-# Ruby on Rails Tutorial sample application
+# [Live Site](https://calm-woodland-78933.herokuapp.com/)
 
-This is the sample application for
-[*Ruby on Rails Tutorial:
-Learn Web Development with Rails*](https://www.railstutorial.org/)
-(6th Edition)
-by [Michael Hartl](https://www.michaelhartl.com/).
+# Steps
+  * `rails new rails-sample-app`
+  * Paste updated `Gemfile`
+    ```
+    source 'https://rubygems.org'
+    git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-## License
+    ruby '2.6.3'
 
-All source code in the [Ruby on Rails Tutorial](https://www.railstutorial.org/)
-is available jointly under the MIT License and the Beerware License. See
-[LICENSE.md](LICENSE.md) for details.
+    gem 'rails',      '6.0.2.2'
+    gem 'puma',       '3.12.2'
+    gem 'sass-rails', '5.1.0'
+    gem 'webpacker',  '4.0.7'
+    gem 'turbolinks', '5.2.0'
+    gem 'jbuilder',   '2.9.1'
+    gem 'bootsnap',   '1.4.5', require: false
 
-## Getting started
+    group :development, :test do
+      gem 'sqlite3', '1.4.1'
+      gem 'byebug',  '11.0.1', platforms: [:mri, :mingw, :x64_mingw]
+    end
 
-To get started with the app, clone the repo and then install the needed gems:
+    group :development do
+      gem 'web-console',           '4.0.1'
+      gem 'listen',                '3.1.5'
+      gem 'spring',                '2.1.0'
+      gem 'spring-watcher-listen', '2.0.1'
+    end
 
-```
-$ bundle install --without production
-```
+    group :test do
+      gem 'capybara',           '3.28.0'
+      gem 'selenium-webdriver', '3.142.4'
+      gem 'webdrivers',         '4.1.2'
+    end
 
-Next, migrate the database:
+    group :production do
+      gem 'pg', '1.1.4'
+    end
 
-```
-$ rails db:migrate
-```
+    # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+    gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+    ```
+  * `bundle install --without production`
+  * `git remote add origin <LINK>`
+  * Paste into app/controllers/application_controller.rb:
+    ```
+    def hello
+      render html: "hello, world!"
+    end
+    ```
+  * Paste into config/routes.rb:
+    ```
+    Rails.application.routes.draw do
+      root 'application#hello'
+    end
+    ```
+  * `heroku create`
+  * `rails generate scaffold User name:string email:string`
+  * `rails db:migrate`
+  * `rails server`
+  *  Navigate in your browser to `localhost:3000/users` for manual testing.
+  * Now navigating in your browser to `localhost:3000` will allow users changes.
+  * Push to Github & Heroku: `git push && heroku push origin master`
 
-Finally, run the test suite to verify that everything is working correctly:
+# Microposts
+  * `rails generate scaffold Micropost content:text user_id:integer`
+  * `rails db:migrate`
+  * Paste into 'app/models/micropost.rb':
+    ```
+    class Micropost < ApplicationRecord
+      validates :content, length: { maximum: 140 }
+    end
+    ```
+    * This forces the 'content' to be a max of 140 characters.
+  * Test with `rails server` in browser at `localhost:3000/microposts`
+  * Push to Github & Heroku: `git push && heroku push origin master`
 
-```
-$ rails test
-```
+# Associations for Users & Microposts
+  * Paste into 'app/models/micropost.rb':
+    ```
+    class Micropost < ApplicationRecord
+      belongs_to :user
+      validates :content, length: { maximum: 140 }, presence: true
+    end
+    ```
+    * A Micropost may only belong to a single User.
+    * A Micropost must be less than or equal to 140 characters.
+    * A Micropost must include content.
+  * Paste into 'app/models/user.rb':
+    ```
+    class User < ApplicationRecord
+      has_many :microposts
+      validates name, presence: true
+      validates email, presence: true
+    end
+    ```
+    * A User may have multiple Microposts. (Note the use of 'microposts' and not 'micropost').
+    * A User must include name.
+    * A User must include email.
+  * Push to Github & Heroku: `git push && heroku push origin master`
+  * Update Heroku's DB with `heroku run rails db:migrate`. Without updating, Heroku will error as Microposts has not been migrated.
 
-If the test suite passes, you'll be ready to run the app in a local server:
-
-```
-$ rails server
-```
-
-For more information, see the
-[*Ruby on Rails Tutorial* book](https://www.railstutorial.org/book).
+#  
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
+  * 
